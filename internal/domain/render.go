@@ -9,11 +9,19 @@ type Attempt struct {
 	Outcome    string     `json:"outcome"`
 	Detail     string     `json:"detail,omitempty"`
 }
+
+// ArtifactMedia is the probe record of a finished artifact. Unlike SourceMedia
+// it records what verification measured, not what it accepted: acceptance
+// additionally requires a DeliveryContract supplied by the frozen plan.
+type ArtifactMedia struct {
+	MediaFacts
+}
+
 type Inspection struct {
-	Media           Media  `json:"media"`
-	Digest          string `json:"digest"`
-	Bytes           int64  `json:"bytes"`
-	DurationDeltaMS int64  `json:"duration_delta_ms"`
+	Media           ArtifactMedia `json:"media"`
+	Digest          string        `json:"digest"`
+	Bytes           int64         `json:"bytes"`
+	DurationDeltaMS int64         `json:"duration_delta_ms"`
 }
 type Artifact struct {
 	Filename    string     `json:"filename"`

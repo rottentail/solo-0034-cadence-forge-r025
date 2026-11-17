@@ -10,7 +10,7 @@ import (
 )
 
 // Visual creates a bounded inspection image, rather than changing the source.
-func Visual(ctx context.Context, binary, path, mode string, m domain.Media) ([]byte, error) {
+func Visual(ctx context.Context, binary, path, mode string, m domain.SourceMedia) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 	dir, err := os.MkdirTemp("", "cadence-visual-*")

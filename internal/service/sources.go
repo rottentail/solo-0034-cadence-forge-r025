@@ -26,7 +26,7 @@ func (s *Service) Ingest(ctx context.Context, name string, body io.Reader) (doma
 	}
 	s.mutation.Lock()
 	defer s.mutation.Unlock()
-	source := domain.Source{ID: ID(), Name: name, Digest: digest, Bytes: n, Media: metadata, CreatedAt: time.Now().UTC()}
+	source := domain.Source{ID: ID(), Name: name, Digest: digest, Bytes: n, Media: domain.SourceMedia{MediaFacts: metadata}, CreatedAt: time.Now().UTC()}
 	err = s.Store.Update(func(st *domain.State) error {
 		for _, existing := range st.Sources {
 			if existing.Digest == digest {

@@ -2,7 +2,13 @@ package domain
 
 import "time"
 
-type Media struct {
+// MediaFacts are the stream properties a probe can observe for an object.
+// Source ingestion, encoding decisions and artifact verification all speak
+// this vocabulary so they agree on the same measured facts. MediaFacts does
+// not assert that an object satisfies a delivery contract; duration tolerance,
+// required streams and target dimensions/rates are contract parameters that a
+// probe cannot establish on its own.
+type MediaFacts struct {
 	DurationMS int64  `json:"duration_ms"`
 	Video      bool   `json:"video"`
 	Audio      bool   `json:"audio"`
@@ -13,13 +19,20 @@ type Media struct {
 	VideoCodec string `json:"video_codec"`
 	AudioCodec string `json:"audio_codec"`
 }
+
+// SourceMedia is the probe record retained for accepted source bytes. It is
+// only populated after the object has been probed successfully.
+type SourceMedia struct {
+	MediaFacts
+}
+
 type Source struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	Digest    string    `json:"digest"`
-	Bytes     int64     `json:"bytes"`
-	Media     Media     `json:"media"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        string      `json:"id"`
+	Name      string      `json:"name"`
+	Digest    string      `json:"digest"`
+	Bytes     int64       `json:"bytes"`
+	Media     SourceMedia `json:"media"`
+	CreatedAt time.Time   `json:"created_at"`
 }
 type Span struct {
 	SourceID string  `json:"source_id"`
